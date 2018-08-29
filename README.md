@@ -12,7 +12,11 @@ var   thumbWidth = 180,
 ```
 
 ## Loading onto Lambda
-Simply zip this folder with all contents and upload to lambda as a function.
+Simply zip this all contents of the contents of this folder and upload to lambda as a function.
+If you are using zip on the command line you can do like this
+```
+zip -r ../lambda-thumbnailer.zip *
+```
 
 ## Setup the Lambda Function
 Then just go onto AWS Lambda create a new function and give it a trigger of put objects with a suffix filter of *.avi, *.mov etc.. 

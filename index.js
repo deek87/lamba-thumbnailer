@@ -4,7 +4,7 @@ Author: Derek Cameron <derek@concrete5.co.jp>
 Copyright: 2018
  **/
 process.env.PATH = process.env.PATH + ":/var/task";
-process.env["FFMPEG_PATH"] = process.env["LAMBDA_TASK_ROOT"] + "/ffmpeg";
+process.env["FFMPEG_PATH"] = "/tmp/ffmpeg";
     var child_process = require("child_process"),
         async = require("async"),
         AWS = require("aws-sdk"),
@@ -14,10 +14,14 @@ process.env["FFMPEG_PATH"] = process.env["LAMBDA_TASK_ROOT"] + "/ffmpeg";
                 return decodeURIComponent(key).replace(/\+/g, " ");
                 }
         };
-// Windows zip files dont save permissions...
-child_process.exec('chmod 755 /var/task/ffmpeg', function (error, stdout, stderr) {
+// Windows zip files dont save permissions... 
+// This is really only for windows users
+child_process.exec('cp /var/task/ffmpeg /tmp/ffmpeg && chmod 755 /tmp/ffmpeg', function (error, stdout, stderr) {
             if (error) {
                 console.log('ffmpeg permissions couldnt be set');
+                console.log(error);
+                console.log(stdout);
+                console.log(stderr);
             } else {
                 console.log("stdout: " + stdout) // chmod ffmpeg
             }
@@ -69,8 +73,10 @@ exports.handler = function(event, context) {
           "-c:v", "mjpeg",
           "pipe:1"
         ]);
-        ffmpeg.on("error", function(err) {
+        ffmpeg.on("error", function(err, stdout, stderr) {
           console.log(err);
+          console.log("ffmpeg stdout:\n" + stdout);
+          console.log("ffmpeg stderr:\n" + stderr);
         })
         ffmpeg.on("close", function(code) {
           if (code != 0 ) {
