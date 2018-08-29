@@ -1,0 +1,25 @@
+{
+  "name": "lambda-video-thumbnailer",
+  "version": "1.0.0",
+  "description": "A Package that allows users to automatically create thumbnails when uploaded to s3.",
+  "homepage": "https://github.com/deek87/lamba-thumbnailer#readme",
+  "keywords": [
+    "lambda","aws","thumbnail","ffmpeg","thumbnails","video","serverless"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": ""
+  },
+  "author": {
+    "name": "Derek \"Deek\" Cameron",
+    "email": "info@derekcameron.com",
+    "url": "https://derekcameron.com"
+  },
+  
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.5.0"
+  }
+
+}
