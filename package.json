@@ -4,22 +4,30 @@
   "description": "A Package that allows users to automatically create thumbnails when uploaded to s3.",
   "homepage": "https://github.com/deek87/lamba-thumbnailer#readme",
   "keywords": [
-    "lambda","aws","thumbnail","ffmpeg","thumbnails","video","serverless"
+    "lambda",
+    "aws",
+    "thumbnail",
+    "ffmpeg",
+    "thumbnails",
+    "video",
+    "serverless"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deek87/lamba-thumbnailer.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package": ""
+    "package": "echo \"ToDo: add the packaging/zipping\" && exit 1"
   },
   "author": {
     "name": "Derek \"Deek\" Cameron",
     "email": "info@derekcameron.com",
     "url": "https://derekcameron.com"
   },
-  
   "license": "MIT",
   "dependencies": {
     "async": "^2.5.0"
   }
-
 }
