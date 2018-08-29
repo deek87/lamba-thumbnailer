@@ -1,7 +1,7 @@
 ## Getting Started
 
-Clone this repository and run the following
-```shell
+Clone this repository and run the following on your command line
+```
 npm install
 ```
 
@@ -20,7 +20,10 @@ zip -r ../lambda-thumbnailer.zip *
 
 ## Setup the Lambda Function
 Then just go onto AWS Lambda create a new function and give it a trigger of put objects with a suffix filter of *.avi, *.mov etc.. 
-Although you don't need this it just reduces the number of invocations. Apply a policy of LambdaExecute to the IAM role (this gives read and write access to s3) then set the memory limit to the maximum (NOTE: I have never reached the maximum with this function, its normally around 700mb even for 4gb mov files) and set timeout for 30seconds (again it normally takes around 6 seconds but its good to be safe).
+
+Although you don't need this it just reduces the number of invocations. Apply a policy of LambdaExecute to the IAM role (this gives read and write access to s3) then set the memory limit to the maximum* and set timeout for 30seconds (again it normally takes around 6 seconds but its good to be safe).
+
+*NOTE: I have never reached the maximum with this function, its normally around 700mb even for 4gb mov files
 
 ### Original Tutorial
 Originally this was a tutorial I wrote back in July last year, I updated it a bit since then. The original also contained mediainfo. [Available Here](https://concrete5.co.jp/blog/creating-video-thumbnails-aws-lambda-your-s3-bucket)
