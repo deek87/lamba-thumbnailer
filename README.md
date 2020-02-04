@@ -1,3 +1,11 @@
+# IMPORTANT
+This branch is currently under development
+# Roadmap for TypeScript
+  * Convert All Code to TypeScript
+  * Use Node.js Layers for Lambda instead
+  * Make the thumbnailer more moduler
+  * Implement Tests
+
 ## Getting Started
 
 Clone this repository and run the following on your command line

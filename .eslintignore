@@ -1,0 +1,3 @@
+/tests/**
+/lib/**
+/src/lib/*.generated.d.ts
