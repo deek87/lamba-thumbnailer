@@ -29,7 +29,7 @@ export default class Thumbnail {
     protected generated = false;
     protected type?: string;
     protected input: string;
-    protected fileName?: string;
+    protected fileName = "";
 
     constructor(input: string, config?: ThumbnailConfig) {
         this.input = input;
@@ -40,7 +40,7 @@ export default class Thumbnail {
         if (input !== "") {
             this.parseInput(input);
         }
- else {
+        else {
             this.fileName = "thumbnail";
         }
     }
@@ -56,12 +56,13 @@ export default class Thumbnail {
             this.config.path = fileDetails.dir;
             this.fileName = fileDetails.name;
         }
-
     }
 
     public getOutput(): string {
         let output: string;
-        output = this.config.path + "/" + this.config.prefix + this.fileName + this.config.suffix;
+        let path: string = (this.config.path || "");
+        if (path !== "") path += "/";
+        output = path + (this.config.prefix || "") + util.getFileName(this.fileName) + (this.config.suffix || "");
         if (this.getType().toLowerCase().match(/jpg|jpeg/)) output += ".jpg";
         if (this.getType().toLowerCase() === "png") output += ".png";
         if (this.getType().toLowerCase() === "webp") output += ".webp";
@@ -95,13 +96,13 @@ export default class Thumbnail {
         const config: FFmpegConfig = {
             quality: this.config.quality,
             codec: "mjpeg",
-            filter: "image2",
+            filter: "image2pipe",
             timestamp: "00:00:10",
             width: this.config.width,
             height: this.config.height
         };
 
-        if (this.getType().toLowerCase() === "png") config.codec = ""; //default is png
+        if (this.getType().toLowerCase() === "png") config.codec = "png"; //default is png
         if (this.getType().toLowerCase() === "webp") {
             config.codec = "libwebp";
             config.quality = (11 - config.quality) * 10;
@@ -124,7 +125,7 @@ export class S3Thumbnail extends Thumbnail {
         super("", config);
         this.bucket = this.config.outputBucket || bucket;
         this.key = key;
-        if (!this.config.path) this.config.path = util.getPath(this.key, this.getType());
+        this.fileName = util.getNewName(this.key, this.getType());
     }
 
     public getS3Url(): string {

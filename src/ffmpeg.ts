@@ -18,7 +18,7 @@ export default class FFmpeg {
 
     constructor(thumbnail: Thumbnail, ffmpegPath?: string, config?: FFmpegConfig) {
         this.config = {...this.config, ...config};
-        this.path = ffmpegPath || "/opt/lib/ffmpeg";
+        this.path = ffmpegPath || "/opt/bin/ffmpeg";
         this.thumbnail = thumbnail;
     }
 
@@ -93,9 +93,11 @@ export default class FFmpeg {
             "-vf", "thumbnail,scale="+this.config.width+":"+this.config.height,
             "-qscale:v" ,this.config.quality.toString(),
             "-frames:v", "1",
-            "-f", this.config.filter || "image2",
-            "-c:v", this.config.codec,
-            "pipe:1"];
+            ];
+            args.push("-f", this.config.filter || "image2pipe");
+            if (this.config.codec) args.push("-c:v", this.config.codec);
+            if (this.config.codec === "png") args.push("-pred","mixed");
+            args.push("pipe:1");
 
         return args;
 

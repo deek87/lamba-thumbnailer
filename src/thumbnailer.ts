@@ -1,7 +1,7 @@
 import S3 from "aws-sdk/clients/s3";
 import {promises as fileSystem, createReadStream} from "fs";
 import Thumbnail, { S3Thumbnail, ThumbnailConfig } from "./thumbnail";
-import { decodeKey } from "./util";
+import { decodeKey, isValidType } from "./util";
 import FFmpeg from "./ffmpeg";
 
 
@@ -59,7 +59,7 @@ export default class Thumbnailer {
 
         ffmpeg.generateThumbnail().then((value)=>{
 
-            fileSystem.copyFile("/tmp/screenshot", thumbnail.getOutput()).then(()=>resolve(), ()=>reject());
+            fileSystem.copyFile("/tmp/screenshot."+thumbnail.getType, thumbnail.getOutput()).then(()=>resolve(), ()=>reject());
 
         }, (value)=>reject(value));
 
@@ -78,44 +78,49 @@ export default class Thumbnailer {
     constructor(s3Record: S3Record, S3Config?: S3.ClientConfiguration,  config?: ThumbnailerConfig) {
         super("", config);
         this.key = decodeKey(s3Record.object.key);
+        if (!isValidType(this.key, this.config.allowedFileTypes)) throw new Error("Invalid filetype supplied");
         this.bucket = s3Record.bucket.name;
         this.client = new S3(S3Config);
     }
-    createThumbnail(config?: ThumbnailConfig): Promise<any> {
+    createThumbnail(config?: ThumbnailConfig): Promise<string> {
         const thumb = new S3Thumbnail(this.bucket, this.key, config);
-        return new Promise((resolve, reject)=>{
-            this.generateThumbnail(thumb).then(()=>resolve(), ()=>reject());
-        });
+        return this.generateThumbnail(thumb);
     }
 
     setS3Options(config: S3.ClientConfiguration) {
         this.client = new S3(config);
     }
 
-    generateThumbnail(thumbnail: S3Thumbnail): Promise<void> {
+    generateThumbnail(thumbnail: S3Thumbnail): Promise<string> {
         const ffmpeg: FFmpeg = new FFmpeg(thumbnail, this.config.ffmpegPath);
-        const tmpFile = createReadStream("/tmp/screenshot"+ thumbnail.getType());
 
     return new Promise((resolve, reject)=>{
-        const params: S3.PutObjectRequest ={
-            Bucket: thumbnail.getBucket(),
-            Key: thumbnail.getOutput(),
-            Body: tmpFile,
-            ContentType: "image/"+ thumbnail.getType(),
-            ACL: "public-read",
-            Metadata: {
-              thumbnail: "TRUE"
-            }
-          };
+
         ffmpeg.generateThumbnail().then((value)=>{
+            const tmpFile = createReadStream("/tmp/screenshot."+ thumbnail.getType());
+            const params: S3.PutObjectRequest ={
+                Bucket: thumbnail.getBucket(),
+                Key: thumbnail.getOutput(),
+                Body: tmpFile,
+                ContentType: "image/"+ thumbnail.getType(),
+                Metadata: {
+                  thumbnail: "TRUE"
+                }
+              };
+            if (value !== 0) {
+                reject(value);
+            }
+            else {
+                this.client.upload(params,(err, _data) => {
+                    if (!err) {
+                        resolve("Successfully uploaded " + thumbnail.getOutput());
+                    }
+                    else {
+                        reject(err) ;
+                    }
 
-            if (value !== 0) reject(value);
-
-            this.client.upload(params).send((err, _data) => {
-                if (err !== undefined) reject(err);
-                resolve();
-              }
-            );
+                });
+            }
 
         }, (value)=>reject(value));
 
