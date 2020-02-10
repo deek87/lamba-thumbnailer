@@ -1,3 +1,5 @@
+![Build](https://github.com/deek87/lamba-thumbnailer/workflows/Build/badge.svg?branch=master)
+
 # IMPORTANT
 This branch is currently under development and is provided as is
 # Roadmap for TypeScript
