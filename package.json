@@ -28,7 +28,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "eslint src/**/*.ts --fix && tsc",
     "watch": "tsc --watch",
-    "lint": "eslint src/**/*.ts --fix",
+    "lint": "eslint src/**/*.ts",
     "package": "echo \"ToDo: add the packaging/zipping\" && exit 1"
   },
   "author": {
