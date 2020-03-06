@@ -128,31 +128,31 @@ Although you don't need to do this it just reduces the number of invocations. Ap
 
 ## Lambda Layers
 ### Asia
-`arn:aws:lambda:ap-east-1:260572601982:layer:ffmpeg:1` - Hong Kong (AP East 1)
-`arn:aws:lambda:ap-south-1:260572601982:layer:ffmpeg:1` - Mumbai (AP South 1)
-`arn:aws:lambda:ap-northeast-2:260572601982:layer:ffmpeg:1` - Seoul (AP Northeast 2)
-`arn:aws:lambda:ap-southeast-1:260572601982:layer:ffmpeg:1` - Singapore (AP Southeast 1)
-`arn:aws:lambda:ap-southeast-2:260572601982:layer:ffmpeg:1` - Sydney (AP Southeast 2)
-`arn:aws:lambda:ap-northeast-1:260572601982:layer:ffmpeg:1` - Tokyo (AP Northeast 1)
+ - `arn:aws:lambda:ap-east-1:260572601982:layer:ffmpeg:1` - Hong Kong (AP East 1)
+ - `arn:aws:lambda:ap-south-1:260572601982:layer:ffmpeg:1` - Mumbai (AP South 1)
+ - `arn:aws:lambda:ap-northeast-2:260572601982:layer:ffmpeg:1` - Seoul (AP Northeast 2)
+ - `arn:aws:lambda:ap-southeast-1:260572601982:layer:ffmpeg:1` - Singapore (AP Southeast 1)
+ - `arn:aws:lambda:ap-southeast-2:260572601982:layer:ffmpeg:1` - Sydney (AP Southeast 2)
+ - `arn:aws:lambda:ap-northeast-1:260572601982:layer:ffmpeg:1` - Tokyo (AP Northeast 1)
 
 ### Europe
-`arn:aws:lambda:eu-central-1:260572601982:layer:ffmpeg:1` - Frankfurt (EU Central 1)
-`arn:aws:lambda:eu-west-1:260572601982:layer:ffmpeg:1` - Ireland (EU West 1)
-`arn:aws:lambda:eu-west-2:260572601982:layer:ffmpeg:1` - London (EU West 2)
-`arn:aws:lambda:eu-west-3:260572601982:layer:ffmpeg:1` - Paris (EU West 3)
-`arn:aws:lambda:eu-north-1:260572601982:layer:ffmpeg:1` - Stockholm (EU North 1)
+ - `arn:aws:lambda:eu-central-1:260572601982:layer:ffmpeg:1` - Frankfurt (EU Central 1)
+ - `arn:aws:lambda:eu-west-1:260572601982:layer:ffmpeg:1` - Ireland (EU West 1)
+ - `arn:aws:lambda:eu-west-2:260572601982:layer:ffmpeg:1` - London (EU West 2)
+ - `arn:aws:lambda:eu-west-3:260572601982:layer:ffmpeg:1` - Paris (EU West 3)
+ - `arn:aws:lambda:eu-north-1:260572601982:layer:ffmpeg:1` - Stockholm (EU North 1)
 
 ### Canada
-`arn:aws:lambda:ca-central-1:260572601982:layer:ffmpeg:1` - Central (CA Central 1)
+ - `arn:aws:lambda:ca-central-1:260572601982:layer:ffmpeg:1` - Central (CA Central 1)
 
 ### South America
-`arn:aws:lambda:sa-east-1:260572601982:layer:ffmpeg:1` - São Paulo (SA East 1)
+ - `arn:aws:lambda:sa-east-1:260572601982:layer:ffmpeg:1` - São Paulo (SA East 1)
 
 ### United States
-`arn:aws:lambda:us-east-1:260572601982:layer:ffmpeg:1` - North Viginia (US East 1)
-`arn:aws:lambda:us-east-2:260572601982:layer:ffmpeg:1` - Ohio (US East 2)
-`arn:aws:lambda:us-west-1:260572601982:layer:ffmpeg:1` - N. California (US West 1)
-`arn:aws:lambda:us-west-2:260572601982:layer:ffmpeg:1` - Oregon (US West 2)
+ - `arn:aws:lambda:us-east-1:260572601982:layer:ffmpeg:1` - North Viginia (US East 1)
+ - `arn:aws:lambda:us-east-2:260572601982:layer:ffmpeg:1` - Ohio (US East 2)
+ - `arn:aws:lambda:us-west-1:260572601982:layer:ffmpeg:1` - N. California (US West 1)
+ - `arn:aws:lambda:us-west-2:260572601982:layer:ffmpeg:1` - Oregon (US West 2)
 
 
 ## Original Tutorial
