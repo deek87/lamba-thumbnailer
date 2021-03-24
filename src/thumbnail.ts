@@ -6,6 +6,7 @@ import {parse as urlParse} from "url";
 
 export interface ThumbnailConfig {
     outputBucket?: string // If blank output in same bucket
+    outputKey?: string //If blank output is same key
     path?: string // default to key
     width: number
     height: number
@@ -127,7 +128,7 @@ export class S3Thumbnail extends Thumbnail {
         this.bucket = this.config.outputBucket || bucket;
         this.originalBucket = bucket;
         this.key = key;
-        this.fileName = util.getNewName(this.key, this.getType());
+        this.fileName = util.getNewName(this.config.outputKey || this.key, this.getType());
     }
 
     public getS3Url(): string {
