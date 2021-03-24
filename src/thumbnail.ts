@@ -120,17 +120,19 @@ export default class Thumbnail {
 
 export class S3Thumbnail extends Thumbnail {
     private bucket: string;
+    private originalBucket: string;
     private key: string;
     constructor(bucket: string, key: string, config?: ThumbnailConfig) {
         super("", config);
         this.bucket = this.config.outputBucket || bucket;
+        this.originalBucket = bucket;
         this.key = key;
         this.fileName = util.getNewName(this.key, this.getType());
     }
 
     public getS3Url(): string {
         const s3 = new S3();
-        const url = s3.getSignedUrl("getObject",{Bucket:this.bucket, Key:this.key, Expires: 1100});
+        const url = s3.getSignedUrl("getObject",{Bucket:this.originalBucket, Key:this.key, Expires: 1100});
         return url;
     }
 
