@@ -1,5 +1,5 @@
 import * as util from "./util";
-import { FFmpegConfig } from "./ffmpeg";
+import {FFmpegConfig} from "./ffmpeg";
 import S3 from "aws-sdk/clients/s3";
 import {parse, posix} from "path";
 import {parse as urlParse} from "url";
@@ -133,8 +133,7 @@ export class S3Thumbnail extends Thumbnail {
 
     public getS3Url(): string {
         const s3 = new S3();
-        const url = s3.getSignedUrl("getObject",{Bucket:this.originalBucket, Key:this.key, Expires: 1100});
-        return url;
+        return s3.getSignedUrl("getObject", {Bucket: this.originalBucket, Key: this.key, Expires: 1100});
     }
 
     public getInput(): string {

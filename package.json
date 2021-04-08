@@ -1,8 +1,8 @@
 {
-  "name": "lambda-video-thumbnailer",
-  "version": "2.0.0-alpha",
+  "name": "lambda-video-thumbnailer2",
+  "version": "1.0.0",
   "description": "A Package that allows users to automatically create thumbnails when uploaded to s3.",
-  "homepage": "https://github.com/deek87/lamba-thumbnailer#readme",
+  "homepage": "https://github.com/MegaVasiliy007/lamba-thumbnailer#readme",
   "keywords": [
     "lambda",
     "aws",
@@ -18,10 +18,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/deek87/lamba-thumbnailer.git"
+    "url": "https://github.com/MegaVasiliy007/lamba-thumbnailer.git"
   },
   "bugs": {
-    "url": "https://github.com/deek87/lamba-thumbnailer/issues"
+    "url": "https://github.com/MegaVasiliy007/lamba-thumbnailer/issues"
   },
   "main": "lib/index.js",
   "scripts": {
@@ -38,16 +38,16 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^13.7.0",
-    "@typescript-eslint/eslint-plugin": "^2.19.0",
-    "@typescript-eslint/experimental-utils": "^2.19.0",
-    "@typescript-eslint/parser": "^2.19.0",
-    "aws-sdk": "^2.610.0",
-    "eslint": "^6.8.0",
-    "eslint-formatter-autolinkable-stylish": "^1.1.1",
-    "eslint-plugin-import": "^2.20.1",
-    "eslint-plugin-jsdoc": "^21.0.0",
+    "@types/node": "^14.14.37",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/experimental-utils": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "aws-sdk": "^2.882.0",
+    "eslint": "^7.23.0",
+    "eslint-formatter-autolinkable-stylish": "^1.1.5",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^32.3.0",
     "eslint-plugin-no-null": "^1.0.2",
-    "typescript": "^3.7.5"
+    "typescript": "^4.2.4"
   }
 }
