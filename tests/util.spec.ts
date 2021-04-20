@@ -14,7 +14,6 @@ describe("Testing utility functions", () => {
     it("should be able to decode a key", () => {
         strictEqual(util.decodeKey(validResponse.keyWithPrefix), '"elephants"/test key.mp4');
         strictEqual(util.decodeKey(validResponse.key), 'test key.mp4');
-        doesNotMatch(util.decodeKey(validResponse.keyWithPrefix), /^\%22elephants\%22\/test\+key\.mp4/ig);
     });
     it("should be able to get a filename without an extension", () => {
         let decodedKey = util.decodeKey(validResponse.key)
