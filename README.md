@@ -33,7 +33,7 @@ This package was created to automatically generate thumbnails from s3 video uplo
 
 Install this package using the following the command then require the package in your code.
 
-```
+```sh
 npm install lambda-video-thumbnailer
 ```
 
@@ -42,44 +42,38 @@ npm install lambda-video-thumbnailer
 You can use [the provided example.js](example.js) to get you started.
 Or you can use the following code snippet for a lambda function.
 
-```
+```js
 // Require the library
 const lvt = require("lambda-video-thumbnailer");
 
+exports.handler = function (event, context) {
+  // Returns a S3Thumbnailer Class
+  const t = new lvt.S3(event.Records[0].s3);
+  // Create a thumbnail will return promise<string>
+  return t.createThumbnail({
+    width: 100,
 
-exports.handler = function(event, context) {
+    height: 100,
 
-// Returns a S3Thumbnailer Class
-const t = new lvt.S3(event.Records[0].s3);
-// Create a thumbnail will return promise<string>
-return t.createThumbnail({
+    time: "00:00:05",
 
-  width: 100,
-
-  height: 100,
-
-  time: "00:00:05",
-
-  type: "webp"
-
-});
-
+    type: "webp",
+  });
 };
-
 ```
 
 ## Thumbnail Configuration
 
 `createThumbnail()` takes a `thumbnailConfig` object with that has the following default options
 
-```
+```json
 {
-  prefix: "thumbnails/",
-  width: 180,
-  height: 180,
-  time: "00:00:05",
-  type: "jpg",
-  quality: 2
+  "prefix": "thumbnails/",
+  "width": 180,
+  "height": 180,
+  "time": "00:00:05",
+  "type": "jpg",
+  "quality": 2
 }
 ```
 
@@ -87,10 +81,10 @@ return t.createThumbnail({
 
 To configure the output size of thumbnails simply supply a width/height number. If you want to automatically calculate width or height based on the aspect ratio of the input, just use -1. For example:
 
-```
+```json
 {
-  width: 700,
-  height: -1
+  "width": 700,
+  "height": -1
 }
 ```
 
@@ -98,10 +92,10 @@ This will produce a 700x300 image when the input aspect ratio is 21:9
 
 If your output needs to be a multiple of n then supply -n and it will output an output that is scaled by the ratio and a multiple of -n. For example
 
-```
+```json
 {
-  width: -3,
-  height: 250
+  "width": -3,
+  "height": 250
 }
 ```
 
@@ -111,9 +105,9 @@ This will produce a 441x250 image when the aspect raito is 21:9
 
 To configure the output type of thumbnails just set the type to `"jpg"`, `"png"` or `"webp"`
 
-```
+```json
 {
-  type: "webp"
+  "type": "webp"
 }
 ```
 
@@ -123,9 +117,9 @@ NOTE: ffmpeg with png tends to output very large filesizes even with -pred mixed
 
 The output quality of the thumbnail is controlled by the `quality` property. It is controlled on a scale of 1-10 with 1 being the best quality and 10 being the worst quality.
 
-```
+```json
 {
-  quality: 1
+  "quality": 1
 }
 ```
 
@@ -133,18 +127,18 @@ The output quality of the thumbnail is controlled by the `quality` property. It 
 
 The output bucket is defined by the `outputBucket` thumbnail config option, by default this will output the files to the source bucket if left blank.
 
-```
+```json
 {
-  outputBucket: 'mybucket'
+  "outputBucket": "mybucket"
 }
 ```
 
 By default the output file name will use the source file with the new type suffix. For example `movie_trailer.mp4` becomes `move_trailer.jpg` when used with the jpg type output.
 However you can customize it with the `outputKey` option in your thumbnail config. It will still attach the type or replace it `my_new_filename.hello` becomes `my_new_filename.jpg`
 
-```
+```json
 {
-  outputKey: 'my_new_filename'
+  "outputKey": "my_new_filename"
 }
 ```
 

@@ -9,18 +9,18 @@
 const lvt = require("lambda-video-thumbnailer");
 
 
-exports.handler = function(event, context) {
+exports.handler = function (event, context) {
 
-const t = new lvt.S3(event.Records[0].s3);
+  const t = new lvt.S3(event.Records[0].s3);
 
-return t.createThumbnail({
+  return t.createThumbnail({
 
-  width: 350,
+    width: 350,
 
-  height: 250,
+    height: 250,
 
-  time: "00:00:11"
+    time: "00:00:11"
 
-});
+  });
 
 };
