@@ -1,8 +1,8 @@
 {
-  "name": "lambda-video-thumbnailer2",
-  "version": "1.0.0",
+  "name": "lambda-video-thumbnailer",
+  "version": "2.0.0-alpha",
   "description": "A Package that allows users to automatically create thumbnails when uploaded to s3.",
-  "homepage": "https://github.com/MegaVasiliy007/lamba-thumbnailer#readme",
+  "homepage": "https://github.com/deek87/lamba-thumbnailer#readme",
   "keywords": [
     "lambda",
     "aws",
@@ -18,10 +18,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/MegaVasiliy007/lamba-thumbnailer.git"
+    "url": "https://github.com/deek87/lamba-thumbnailer.git"
   },
   "bugs": {
-    "url": "https://github.com/MegaVasiliy007/lamba-thumbnailer/issues"
+    "url": "https://github.com/deek87/lamba-thumbnailer/issues"
   },
   "main": "lib/index.js",
   "scripts": {
