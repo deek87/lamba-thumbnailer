@@ -48,7 +48,7 @@ export default class Thumbnailer {
         const thumb: Thumbnail = new Thumbnail(this.input, config);
 
         return new Promise((resolve, reject)=>{
-            this.generateThumbnail(thumb).then(()=>resolve(), ()=>reject());
+            this.generateThumbnail(thumb).then(()=>resolve(true), ()=>reject());
         });
     }
 
@@ -59,7 +59,7 @@ export default class Thumbnailer {
 
         ffmpeg.generateThumbnail().then((value)=>{
 
-            fileSystem.copyFile("/tmp/screenshot."+thumbnail.getType, thumbnail.getOutput()).then(()=>resolve(), ()=>reject());
+            fileSystem.copyFile("/tmp/screenshot."+thumbnail.getType, thumbnail.getOutput()).then(()=>resolve(true), ()=>reject());
 
         }, (value)=>reject(value));
 
