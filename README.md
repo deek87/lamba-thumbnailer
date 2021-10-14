@@ -39,7 +39,7 @@ npm install lambda-video-thumbnailer
 
 ### Using in your own function
 
-You can use [the provided example.js](example.js) to get you started.
+You can use [the provided s3example.js](examples/s3.js) to get you started.
 Or you can use the following code snippet for a lambda function.
 
 ```js
@@ -73,7 +73,8 @@ exports.handler = function (event, context) {
   "height": 180,
   "time": "00:00:05",
   "type": "jpg",
-  "quality": 2
+  "quality": 2,
+  "thumbnailOption": "default"
 }
 ```
 
@@ -120,6 +121,16 @@ The output quality of the thumbnail is controlled by the `quality` property. It 
 ```json
 {
   "quality": 1
+}
+```
+
+### Thumbnail Option
+
+This option determines which filter to use for capturing thumbnails via ffmpeg. The options currently are `default`,`none`. The `default` option will set the filter to `thumbnail` this will look for the best frame within the select timeslot, this can be use quite a bit of memory on large files but will generally give the best screenshots. `none` will not use any filter and pick the first frame at the given timeslot.
+
+```json
+{
+  "thumbnailOption": "none"
 }
 ```
 

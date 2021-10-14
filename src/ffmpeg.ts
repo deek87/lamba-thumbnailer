@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import Thumbnail from "./thumbnail";
-import {spawn } from "child_process";
+import { spawn } from "child_process";
 
 export default class FFmpeg {
 
@@ -10,20 +10,23 @@ export default class FFmpeg {
         filter: "image2",
         timestamp: "00:00:10",
         width: 180,
-        height: 180
+        height: 180,
+        thumbnailOption: "default"
     };
     private input = "";
     private path: string;
     private thumbnail: Thumbnail;
 
     constructor(thumbnail: Thumbnail, ffmpegPath?: string, config?: FFmpegConfig) {
-        this.config = {...this.config, ...config};
+        if (!config) config = thumbnail.getFFmpegConfig();
+        this.config = { ...this.config, ...config };
+
         this.path = ffmpegPath || "/opt/bin/ffmpeg";
         this.thumbnail = thumbnail;
     }
 
     setConfig(config: FFmpegConfig) {
-        this.config = {...this.config, ...config};
+        this.config = { ...this.config, ...config };
     }
 
     setInput(input: string) {
@@ -33,7 +36,7 @@ export default class FFmpeg {
 
     setFFmpegPath(path: string) {
         if (!this.testFFmpegPath(path)) throw new FFmpegException("Invalid file permissions.\n " + path + " is not executable");
-            this.path = path;
+        this.path = path;
     }
 
     private testFFmpegPath(path?: string): boolean {
@@ -42,62 +45,80 @@ export default class FFmpeg {
         try {
             fs.accessSync(path, fs.constants.X_OK);
             return true;
-          }
- catch (err) {
+        }
+        catch (err) {
             return false;
-          }
+        }
     }
 
     public generateThumbnail(thumbnail?: Thumbnail): Promise<number> {
         if (!thumbnail) thumbnail = this.thumbnail;
-        const writeStream = fs.createWriteStream("/tmp/screenshot." + thumbnail.getType());
-        this.config = {...this.config, ...thumbnail.getFFmpegConfig()};
+        let tmpPath = "/tmp/";
+        try {
+            fs.accessSync(tmpPath, fs.constants.W_OK);
+        }
+        catch {
+            tmpPath = "./";
+        }
+
+        const writeStream = fs.createWriteStream(tmpPath + "screenshot." + thumbnail.getType());
+        this.config = { ...this.config, ...thumbnail.getFFmpegConfig() };
         this.setInput(thumbnail.getInput());
 
         const ffmpeg = spawn(this.path, this.generateArguements());
 
-        return new Promise<number>((resolve, reject)=>{
-            ffmpeg.on("error", (err: Error, stdout: Buffer|string, stderr: Buffer|string)=> {
-                /*console.log(err);
-                console.log('ffmpeg stdout:\n' + stdout);
-                console.log('ffmpeg stderr:\n' + stderr);*/
-                throw new FFmpegException("An error occurred while trying to executed FFmpeg: " + err);
-              });
-              ffmpeg.on("close", (code: number, signal: string) =>{
+        return new Promise<number>((resolve, reject) => {
+            ffmpeg.on("error", (err: Error, stdout: Buffer | string, stderr: Buffer | string) => {
+                throw new FFmpegException("An error occurred while trying to executed FFmpeg : " + err);
+            });
+            ffmpeg.on("close", (code: number, signal: string) => {
                 if (code !== 0) {
                     reject("FFmpeg exited with code " + code + ".\n Signal : " + signal);
                 }
-                writeStream.end();
+                if (writeStream.writable) {
+                    writeStream.end((err: Error) => {
+                        reject("An error occurred while trying to write the thumbnail : " + err);
+                    });
+                }
                 resolve(code);
 
-              });
-              writeStream.on("error", (err: Error) =>{
+            });
+            writeStream.on("error", (err: Error) => {
                 reject("An error occurred while writing to the file : " + err);
-              });
-              ffmpeg.on("end", function() {
-                writeStream.end();
-              });
-              ffmpeg.stdout.pipe(writeStream)
-              .on("error", function(err){
-                reject("An error occurred while writing to the file : " + err);
-              });
+            });
+            ffmpeg.on("end", function () {
+                writeStream.end((err: Error) => {
+                    reject("An error occurred while trying to close the write stream : " + err);
+                });
+            });
+            ffmpeg.stdout.pipe(writeStream)
+                .on("error", function (err) {
+                    reject("An error occurred while writing to the file : " + err);
+                });
         });
 
     }
+
+    private getThumbnailOption(): string {
+        if (!this.config.thumbnailOption || this.config.thumbnailOption === "none") return "";
+
+        return "thumbnail,";
+    }
+
 
     private generateArguements(): string[] {
 
         const args: string[] = [
             "-ss", this.config.timestamp,
             "-i", this.input, // url to stream from
-            "-vf", "thumbnail,scale="+this.config.width+":"+this.config.height,
-            "-qscale:v" ,this.config.quality.toString(),
+            "-vf", this.getThumbnailOption() + "scale=" + this.config.width + ":" + this.config.height,
+            "-qscale:v", this.config.quality.toString(),
             "-frames:v", "1",
-            ];
-            args.push("-f", this.config.filter || "image2pipe");
-            if (this.config.codec) args.push("-c:v", this.config.codec);
-            if (this.config.codec === "png") args.push("-pred","mixed");
-            args.push("pipe:1");
+        ];
+        args.push("-f", this.config.filter || "image2pipe");
+        if (this.config.codec) args.push("-c:v", this.config.codec);
+        if (this.config.codec === "png") args.push("-pred", "mixed");
+        args.push("pipe:1");
 
         return args;
 
@@ -105,13 +126,16 @@ export default class FFmpeg {
 
 }
 
+export type ffMpegThumbnailOption = "default" | "none";
+
 export interface FFmpegConfig {
     quality: number
     codec: string
     timestamp: string
     filter?: string,
     width: number,
-    height: number
+    height: number,
+    thumbnailOption?: ffMpegThumbnailOption
 };
 
 /**
@@ -125,6 +149,6 @@ export interface FFmpegConfig {
           "-c:v", "mjpeg",
  */
 
- class FFmpegException extends Error {
+class FFmpegException extends Error {
 
- }
+}

@@ -1,6 +1,6 @@
 {
   "name": "lambda-video-thumbnailer",
-  "version": "2.0.0-beta",
+  "version": "2.0.0",
   "description": "A Package that allows users to automatically create thumbnails when uploaded to s3.",
   "homepage": "https://github.com/deek87/lamba-thumbnailer#readme",
   "keywords": [
@@ -38,18 +38,18 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^8.2.2",
+    "@types/mocha": "^9.0.0",
     "@types/node": "^14.14.37",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/experimental-utils": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
-    "aws-sdk": "^2.882.0",
+    "aws-sdk": "^2.1007.0",
     "eslint": "^7.23.0",
     "eslint-formatter-autolinkable-stylish": "^1.1.5",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^32.3.0",
     "eslint-plugin-no-null": "^1.0.2",
-    "mocha": "^8.3.2",
+    "mocha": "^9.1.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   }

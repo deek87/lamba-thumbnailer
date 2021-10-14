@@ -1,8 +1,8 @@
 import * as util from "./util";
-import {FFmpegConfig} from "./ffmpeg";
+import { FFmpegConfig, ffMpegThumbnailOption } from "./ffmpeg";
 import S3 from "aws-sdk/clients/s3";
-import {parse, posix} from "path";
-import {parse as urlParse} from "url";
+import { parse, posix } from "path";
+import { URL } from "url";
 
 export interface ThumbnailConfig {
     outputBucket?: string // If blank output in same bucket
@@ -15,6 +15,7 @@ export interface ThumbnailConfig {
     suffix?: string
     type?: string // default to jpg
     quality: number // 1 to 10 --- 1 best quality 10 worst quality
+    thumbnailOption?: ffMpegThumbnailOption
 };
 
 export default class Thumbnail {
@@ -34,8 +35,8 @@ export default class Thumbnail {
 
     constructor(input: string, config?: ThumbnailConfig) {
         this.input = input;
-        this.config = {...this.config, ...config};
-        this.setType(this.config.type||"jpg");
+        this.config = { ...this.config, ...config };
+        this.setType(this.config.type || "jpg");
         if (this.config.quality > 10) this.config.quality = 10;
         if (this.config.quality < 1) this.config.quality = 1;
         if (input !== "") {
@@ -49,10 +50,10 @@ export default class Thumbnail {
     private parseInput(input: string) {
 
         if (input.toLowerCase().match(/(http[s]?:\/\/|\/\/)/)) {
-            const fileDetails = urlParse(input);
+            const fileDetails = new URL(input);
             this.fileName = posix.basename(fileDetails.pathname || "");
         }
- else {
+        else {
             const fileDetails = parse(input);
             this.config.path = fileDetails.dir;
             this.fileName = fileDetails.name;
@@ -100,7 +101,8 @@ export default class Thumbnail {
             filter: "image2pipe",
             timestamp: "00:00:10",
             width: this.config.width,
-            height: this.config.height
+            height: this.config.height,
+            thumbnailOption: this.config.thumbnailOption ?? "default"
         };
 
         if (this.getType().toLowerCase() === "png") config.codec = "png"; //default is png
@@ -133,7 +135,7 @@ export class S3Thumbnail extends Thumbnail {
 
     public getS3Url(): string {
         const s3 = new S3();
-        return s3.getSignedUrl("getObject", {Bucket: this.originalBucket, Key: this.key, Expires: 1100});
+        return s3.getSignedUrl("getObject", { Bucket: this.originalBucket, Key: this.key, Expires: 1100 });
     }
 
     public getInput(): string {

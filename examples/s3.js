@@ -19,7 +19,7 @@ exports.handler = function (event, context) {
 
     height: 250,
 
-    time: "00:00:11"
+    time: "00:00:11",
 
   });
 
