@@ -1,6 +1,6 @@
 {
   "name": "lambda-video-thumbnailer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A Package that allows users to automatically create thumbnails when uploaded to s3.",
   "homepage": "https://github.com/deek87/lamba-thumbnailer#readme",
   "keywords": [

@@ -99,7 +99,7 @@ export default class Thumbnail {
             quality: this.config.quality,
             codec: "mjpeg",
             filter: "image2pipe",
-            timestamp: "00:00:10",
+            time: "00:00:10",
             width: this.config.width,
             height: this.config.height,
             thumbnailOption: this.config.thumbnailOption ?? "default"
