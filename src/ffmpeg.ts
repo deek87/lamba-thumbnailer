@@ -8,7 +8,7 @@ export default class FFmpeg {
         quality: 2,
         codec: "mjpeg",
         filter: "image2",
-        timestamp: "00:00:10",
+        time: "00:00:10",
         width: 180,
         height: 180,
         thumbnailOption: "default"
@@ -109,7 +109,7 @@ export default class FFmpeg {
     private generateArguements(): string[] {
 
         const args: string[] = [
-            "-ss", this.config.timestamp,
+            "-ss", this.config.time,
             "-i", this.input, // url to stream from
             "-vf", this.getThumbnailOption() + "scale=" + this.config.width + ":" + this.config.height,
             "-qscale:v", this.config.quality.toString(),
@@ -131,7 +131,7 @@ export type ffMpegThumbnailOption = "default" | "none";
 export interface FFmpegConfig {
     quality: number
     codec: string
-    timestamp: string
+    time: string
     filter?: string,
     width: number,
     height: number,
